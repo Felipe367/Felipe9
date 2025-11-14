@@ -1,32 +1,48 @@
-const form = document.getElementById('meuForm');
-  const nomeInput = document.getElementById('nome');
-  const emailInput = document.getElementById('email');
+const form = document.getElementById('myForm');
+form.addEventListener('submit', function (event) {
+   
+    event.preventDefault();
+    clearErrors();
+    if (validateForm()) {
+        alert('Formulário enviado com sucesso!');
+       
+    }
+});
 
-  form.addEventListener('submit', function(e) {
-    // Previne o envio padrão do formulário
-    e.preventDefault(); 
-
+function validateForm() {
     let isValid = true;
 
-    // Valida o campo de nome
-    if (nomeInput.value.trim() === '') {
-      alert('O campo nome é obrigatório!');
-      isValid = false;
+    
+    const nome = document.getElementById('nome');
+    if (nome.value.trim() === '' || nome.value.length < 3) {
+        displayError('nomeError', 'O nome deve ter no mínimo 3 caracteres.');
+        isValid = false;
     }
 
-    // Valida o campo de e-mail (exemplo básico)
-    if (emailInput.value.trim() === '') {
-      alert('O campo e-mail é obrigatório!');
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(emailInput.value)) {
-      alert('Por favor, insira um endereço de e-mail válido.');
-      isValid = false;
+    const email = document.getElementById('email');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email.value)) {
+        displayError('emailError', 'Por favor, insira um endereço de e-mail válido.');
+        isValid = false;
     }
 
-    // Se tudo estiver válido, o formulário é enviado
-    if (isValid) {
-      // Aqui você pode enviar o formulário programaticamente
-      // form.submit(); 
-      alert('Formulário válido!');
+    
+    const senha = document.getElementById('senha');
+    if (senha.value.length < 8) {
+        displayError('senhaError', 'A senha deve ter no mínimo 8 caracteres.');
+        isValid = false;
     }
-  });
+
+    return isValid;
+}
+
+function displayError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    errorElement.textContent = message;
+    errorElement.style.color = 'red';
+}
+
+function clearErrors() {
+    const errorElements = document.querySelectorAll('.error');
+    errorElements.forEach(el => el.textContent = '');
+}
