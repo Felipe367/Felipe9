@@ -1,48 +1,33 @@
-const form = document.getElementById('myForm');
-form.addEventListener('submit', function (event) {
-   
-    event.preventDefault();
-    clearErrors();
-    if (validateForm()) {
-        alert('Formulário enviado com sucesso!');
-       
+try{
+    const form= document.querySelector("from")?? null;
+    const nomeInput = document.queryselector("#nome");
+    const assubtoSelect = document.querySelector("#assunto");
+    const mensagemTextarea = document.querySelector("#mensagem");
+    const enviarBtn = document.querySelector("#enviar-btn");
+
+    function validarFormulario(evento){
+        evento.preventDefault();
+        let valido = true;
+        if(nomeInput.value.trim()===''){
+            valido = false;
+        alert("O campo de nome não pode ser vazio!");
+        }
     }
-});
+    if(mensagemTextarea.value.trim()===''){
+        valido= false
+        alert("mensagem não pode ser vazia!")
+    }else if(mensagemTextarea.value.trim().length > 500) {
+        valido = false;
+        alert("Mensagem deve ser menor que 500 caracteres")
 
-function validateForm() {
-    let isValid = true;
 
-    
-    const nome = document.getElementById('nome');
-    if (nome.value.trim() === '' || nome.value.length < 3) {
-        displayError('nomeError', 'O nome deve ter no mínimo 3 caracteres.');
-        isValid = false;
-    }
-
-    const email = document.getElementById('email');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email.value)) {
-        displayError('emailError', 'Por favor, insira um endereço de e-mail válido.');
-        isValid = false;
-    }
-
-    
-    const senha = document.getElementById('senha');
-    if (senha.value.length < 8) {
-        displayError('senhaError', 'A senha deve ter no mínimo 8 caracteres.');
-        isValid = false;
+        if(valido){
+            alert("Agradecemos seu contato")
+            form.aubmit();
+        }
     }
 
-    return isValid;
-}
-
-function displayError(elementId, message) {
-    const errorElement = document.getElementById(elementId);
-    errorElement.textContent = message;
-    errorElement.style.color = 'red';
-}
-
-function clearErrors() {
-    const errorElements = document.querySelectorAll('.error');
-    errorElements.forEach(el => el.textContent = '');
+     enviarBtn.addEventListener('click',validarFormulario);
+}catch (exception){
+    console.log(exception.message);
 }
