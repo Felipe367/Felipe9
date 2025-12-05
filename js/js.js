@@ -1,33 +1,22 @@
-try{
-    const form= document.querySelector("from")?? null;
-    const nomeInput = document.queryselector("#nome");
-    const assubtoSelect = document.querySelector("#assunto");
-    const mensagemTextarea = document.querySelector("#mensagem");
-    const enviarBtn = document.querySelector("#enviar-btn");
+const form = document.querySelector('form');
+const nome = document.getElementById('nome');
+const email = document.getElementById('email');
 
-    function validarFormulario(evento){
-        evento.preventDefault();
-        let valido = true;
-        if(nomeInput.value.trim()===''){
-            valido = false;
-        alert("O campo de nome não pode ser vazio!");
-        }
-    }
-    if(mensagemTextarea.value.trim()===''){
-        valido= false
-        alert("mensagem não pode ser vazia!")
-    }else if(mensagemTextarea.value.trim().length > 500) {
-        valido = false;
-        alert("Mensagem deve ser menor que 500 caracteres")
+form.addEventListener('submit', function(event) {
+  if (!validarNome(nome.value) || !validarEmail(email.value)) {
+    event.preventDefault(); // Impede o envio se houver erro
+    alert('Por favor, corrija os erros no formulário.');
+  }
+});
 
+function validarNome(nome) {
+  if (nome.trim() === '') {
+    return false; // Nome vazio
+  }
+  return true;
+}
 
-        if(valido){
-            alert("Agradecemos seu contato")
-            form.aubmit();
-        }
-    }
-
-     enviarBtn.addEventListener('click',validarFormulario);
-}catch (exception){
-    console.log(exception.message);
+function validarEmail(email) {
+  const regex = /^\S+@\S+\.\S+$/;
+  return regex.test(email); // Verifica formato de e-mail
 }
